@@ -131,10 +131,9 @@ console.log("val", value)
 
   return (
     <div style={styles} className="box">
-      <div>
+      <Col>
         <Row>
-         
-          <Col span={6}>
+          <Col span={24} className="thu">
           <label>Chọn thư: </label>
           <Select
               onChange={(value) => this.handleChange(value)}
@@ -147,14 +146,12 @@ console.log("val", value)
               ))})
             </Select>
           </Col>
-          <Col span={18}>
+          <Col span={24} offset={1}>
             <img onClick={() => this.showInputImage()} className="img" src={imgUrl}></img>
           </Col>
         </Row>
         <br></br>
         <Row>
-          <Col span={6}>
-          </Col>
           <Col span={18}>
             <Row><Col>Mật khẩu:  </Col></Row>
             <Row>
@@ -174,7 +171,7 @@ console.log("val", value)
           </Col>
       
         </Row>
-      </div>
+      </Col>
     </div>
   )
 }
