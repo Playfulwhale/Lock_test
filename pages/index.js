@@ -1,65 +1,184 @@
-import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import React from 'react';
 
-export default function Home() {
+import { Button, Row, Col, Select, Input } from 'antd';
+
+
+
+const {Option} = Select
+
+const content = {
+  marginTop: '100px',
+  marginLeft: '100px',
+}
+
+const locks = [{
+  id: 1,
+  imgUrl: '/image/1.jpg'
+},
+{
+  id: 2,
+  imgUrl: '/image/2.jpg'
+}
+]
+
+
+const letterScrect = [
+  {
+    id: 1, 
+    name: "Thư bí mật 1",
+    lockID: 1,
+    passWord: "10020",
+    link: "https://ibb.co/7KZyKf5"
+  },
+  {
+    id: 2, 
+    name: "Thư bí mật 2",
+    lockID: 2,
+    passWord: "9452",
+    link: "https://ibb.co/FwH6FHD"
+  },
+  {
+    id: 3, 
+    name: "Thư bí mật 3",
+    lockID: 1,
+    passWord: "4283",
+    link: "https://ibb.co/s6P0MYN"
+  },
+{
+    id: 4, 
+    name: "Thư bí mật 4",
+    lockID: 2,
+    passWord: "7251",
+    link: "https://ibb.co/TWTD7tM"
+  },
+{
+    id: 5, 
+    name: "Thư bí mật 5",
+    lockID: 1,
+    passWord: "computer",
+    link: "https://ibb.co/TWTD7tM"
+  },
+{
+    id: 6, 
+    name: "Thư bí mật 6",
+    lockID: 2,
+    passWord: "1234",
+    link: "https://ibb.co/89C1v8G"
+  }
+]
+
+
+
+
+class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      imgUrl: './image/1.jpg',
+      open: false,
+      value: '',
+      letterID: 1
+    }
+  }
+
+  handleChange = (value) => {
+    var letter = letterScrect.filter(x => x.id == value)[0]
+    var lock = locks.filter(x => x.id == letter.lockID)[0]
+  
+    console.log("lock", lock)
+    this.setState({
+      imgUrl: lock.imgUrl,
+      //imgInputUrl: null,
+      value: '',
+      pw: '',
+      letterID: value
+    })
+  }
+
+  showInputImage = () => {
+    console.log("click na")
+  }
+
+  changePass = (e) => {
+    const { value } = e.target;
+console.log("val", value)
+    this.setState({
+      pw: value
+    })
+  }
+
+  onConfirm = () => {
+    const {pw, letterID} = this.state
+    console.log("pa ne", pw)
+    var letter = letterScrect.filter(x => x.id == letterID)[0]
+
+    if(letter?.passWord == pw)
+    {
+      window.location.href = letter.link
+    }
+    else{
+      alert("Sai mật khẩu. Vui lòng kiểm tra lại!")
+    }
+
+  }
+
+
+ render(){
+   const {imgUrl, pw} = this.state
+   //const imgUrl = './image/abc.jpg'
+   console.log("imgUrl", imgUrl)
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+    <div style={styles} className="box">
+      <div>
+        <Row>
+         
+          <Col span={6}>
+          <label>Chọn thư: </label>
+          <Select
+              onChange={(value) => this.handleChange(value)}
+              defaultValue="Thư bí mật 1"
+              style={{ width: 192 }}
+              name="select"
+            >
+              ({letterScrect && letterScrect?.map((item, index) => (
+                <Option key={index} value={item.id}>{item.name}</Option>
+              ))})
+            </Select>
+          </Col>
+          <Col span={18}>
+            <img onClick={() => this.showInputImage()} className="img" src={imgUrl}></img>
+          </Col>
+        </Row>
+        <br></br>
+        <Row>
+          <Col span={6}>
+          </Col>
+          <Col span={18}>
+            <Row><Col>Mật khẩu:  </Col></Row>
+            <Row>
+              
+            <Col>
+             <Input onChange={(value) => this.changePass(value)} placeholder="Mật khẩu" />
+            </Col>
+              <Col>
+                <Button type="primary" onClick={() => this.onConfirm()} style={{ marginLeft: 8 }}>
+                  OK
+                </Button>
+              </Col>
+            </Row>
+            
+           
+           
+          </Col>
+      
+        </Row>
+      </div>
     </div>
   )
 }
+ }
+  
+
+export default Home

@@ -14,3 +14,14 @@ a {
 * {
   box-sizing: border-box;
 }
+
+@import '~antd/dist/antd.css';
+
+.img{
+  max-height: 300px
+}
+
+.box{
+  margin-top: 20vh;
+  margin-left: 20vh;
+}
